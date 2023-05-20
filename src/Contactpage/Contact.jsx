@@ -1,60 +1,53 @@
 import { withFormik } from "formik";
 import React from "react";
-import Button from "./Button";
+import Button from "../Button/Button";
 import * as Yup from "yup";
-import Input from "./Input";
+import Input from "../InputHoc/Input";
 import axios from "axios";
-import { withUser, withAlert } from "./withProvider";
-import { Navigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { withUser, withAlert } from "../withProvider";
 
 function callLoginApi(values, bag) {
   axios
-    .post("https://myeasykart.codeyogi.io/login", {
+    .post("https://printapp-e7875-default-rtdb.firebaseio.com/printapp.json", {
       email: values.email,
-      password: values.myPassword,
+      name: values.name,
+      message: values.message,
     })
 
-    .then((response) => {
-      const { user, token } = response.data;
-      localStorage.setItem("token", token);
-      bag.props.setUser(user);
+    .then(() => {
       bag.props.setAlert({
         type: "Success",
-        message: " Successfully logged in"  ,
+        message: " Message  Successfully send  ",
       });
     })
     .catch(() => {
       bag.props.setAlert({
         type: "Error",
-        message: "Invalid Credentials " + values.myPassword + values.email,
+        message: " Message  not send  ",
       });
-    })
+    });
 }
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required(),
-  myPassword: Yup.string().min(6).max(12).required(),
+  name: Yup.string().required(),
+  message: Yup.string().required(),
 });
 
 const initialValues = {
   email: "",
-  myPassword: "",
+  name: "",
+  message: "",
 };
 
-export function Login({
+export function Contact({
   handleSubmit,
   values,
   errors,
   touched,
   handleChange,
   handleBlur,
-  user,
 }) {
-  if (user) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <div className="flex items-center justify-center w-full h-screen bg-gray-100">
       <form
@@ -62,7 +55,7 @@ export function Login({
         className="flex flex-col p-5 bg-white rounded-md shadow-md w-96"
       >
         <h1 className="self-center mb-4 text-orange-500 text-2xl font-bold">
-          Login to Trycasuals
+          Contact Us
         </h1>
         <Input
           values={values.email}
@@ -76,39 +69,51 @@ export function Login({
           type="email"
           required
           autoComplete="email"
-          placeholder="Email or Username"
+          placeholder="Email"
           className="rounded-b-none"
         />
         <Input
-          values={values.myPassword}
-          error={errors.myPassword}
-          touched={touched.myPassword}
+          values={values.name}
+          error={errors.name}
+          touched={touched.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          label="Password"
+          label="name"
           id="xyz"
-          name="myPassword"
-          type="password"
+          name="name"
+          type="text"
           required
-          autoComplete="current-password"
-          placeholder="Password"
+          autoComplete="current-name"
+          placeholder="Name"
+          className="rounded-t-none"
+        />
+        <Input
+          values={values.message}
+          error={errors.message}
+          touched={touched.message}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          label="message"
+          id="vts"
+          name="message"
+          type="text"
+          required
+          autoComplete="current-message"
+          placeholder="Message"
           className="rounded-t-none"
         />
         <Button type="sumbit" className="self-end mt-3">
-          Login
+          SEND MESSAGE
         </Button>
-        <span className="mt-3"> Not a Member?</span>
-        <Link  className=" hover:border-blue-400 border-2 rounded-md py-3 px-0 text-center mb-2 " to="/Signup">Signup</Link>
-        <Link className=" hover:border-blue-400 border-2 rounded-md py-3 px-0 text-center   " to="/Forgot">Forgot</Link>
       </form>
     </div>
   );
 }
 
-const FormikLogin = withFormik({
+const FormikContact = withFormik({
   validationSchema: schema,
   initialValues: initialValues,
   handleSubmit: callLoginApi,
-})(Login);
+})(Contact);
 
-export default withAlert(withUser(FormikLogin));
+export default withAlert(withUser(FormikContact));

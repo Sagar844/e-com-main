@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getProductid } from "./api";
+import { getProductid } from "./api/api";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import UserLoading from "./UserLoading";
+import UserLoading from "./LoadingComponets/UserLoading";
 import DataNotFound from "./DataNotFound";
 
 import { memo } from "react";
-import Fakeproductapi from "./Fakestoreapi/Fakeproductapi"
+import Fakeproductapi from "./Fakestoreapi/Fakeproductapi";
 
 function Productsingle({ onaddtocart }) {
   const { _id } = useParams();
-  const [productList, setProductList] = useState([]);
 
   const [count, setCounter] = useState(1);
 
@@ -22,9 +21,7 @@ function Productsingle({ onaddtocart }) {
     p.then(function (product) {
       setProduct(product);
       setLoading(false);
-    }).catch(function () {
-  
-    });
+    }).catch(function () {});
   }, []);
 
   const btn = () => {
@@ -42,7 +39,7 @@ function Productsingle({ onaddtocart }) {
   );
 
   if (loading) {
-    return <UserLoading/>
+    return <UserLoading />;
   }
 
   if (!product) {
@@ -63,12 +60,11 @@ function Productsingle({ onaddtocart }) {
           </TransformWrapper>
           <div className="">
             <div className="text-bold text-red-500 text-3xl ">
-              {product.name}{" "}
+              {product.name}
             </div>
 
             <div className="text-2xl font-bold text-orange-600">
-              {" "}
-              Rs.{product.price}{" "}
+              Rs.{product.price}
             </div>
 
             <div className="flex space-x-5  mt-5  ">
@@ -76,13 +72,10 @@ function Productsingle({ onaddtocart }) {
                 className="bg-orange-500 text-white px-3 py-2 rounded-md  disabled:bg-gray-500 "
                 disabled={count <= 1}
                 onClick={btn2}
-              >
-                {" "}
-                -{" "}
-              </button>
+              ></button>
 
               <h1 className="text-5xl text-red-400 border border-green-400 p-1 bg-gray-200">
-                {count}{" "}
+                {count}
               </h1>
 
               <button
@@ -115,7 +108,7 @@ function Productsingle({ onaddtocart }) {
       </div>
       <div className="text-3xl text-bold ml-10">You might be interested in</div>
       <div className="mt-5">
- <Fakeproductapi/>
+      
       </div>
     </>
   );

@@ -1,85 +1,69 @@
 import { withFormik } from "formik";
 import React from "react";
-import Button from "./Button";
+import Button from "../Button/Button";
 import * as Yup from "yup";
-import Input from "./Input";
+import Input from "../InputHoc/Input";
 import axios from "axios";
-import { withUser, withAlert } from "./withProvider";
+import { withUser, withAlert } from "../withProvider";
+import { Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function callLoginApi(values,bag) {
+function callLoginApi(values, bag) {
   axios
-    .post("https://myeasykart.codeyogi.io/signup", {
-      fullName : values.fullName,  
+    .post("https://myeasykart.codeyogi.io/login", {
       email: values.email,
       password: values.myPassword,
     })
-    
+
     .then((response) => {
       const { user, token } = response.data;
       localStorage.setItem("token", token);
       bag.props.setUser(user);
       bag.props.setAlert({
-          type: "Success",
-          message:"Account created. Please login  " + user.email,
-
-      })
-  
+        type: "Success",
+        message: " Successfully logged in"  ,
+      });
     })
     .catch(() => {
       bag.props.setAlert({
         type: "Error",
-        message:"Signup Filed"
-
+        message: "Invalid Credentials " + values.myPassword + values.email,
+      });
     })
-
-    });
 }
 
 const schema = Yup.object().shape({
-fullName: Yup.string(),
   email: Yup.string().email().required(),
   myPassword: Yup.string().min(6).max(12).required(),
 });
 
 const initialValues = {
-  fullName:"" , 
   email: "",
   myPassword: "",
 };
 
-export function Signup({
+export function Login({
   handleSubmit,
   values,
   errors,
   touched,
   handleChange,
   handleBlur,
+  user,
 }) {
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="flex items-center justify-center w-full h-screen bg-gray-100">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col p-5 bg-white rounded-md shadow-md w-96"
       >
-        <h1 className="self-center mb-4 text-orange-500 text-2xl font-bold">
-          Signup to Trycasuals
+        <h1 className="self-center mb-4 text-orange-500 text-sm font-bold">
+          Login to Trycasuals
         </h1>
-
-        <Input
-          values={values.fullName}
-          error={errors.fullName}
-          touched={touched.fullName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="fullName"
-          id="fullName"
-          name="fullName"
-          type="text"
-          required
-          autoComplete="on"
-          placeholder=" Username"
-          className="rounded-b-none"
-        />
         <Input
           values={values.email}
           error={errors.email}
@@ -111,18 +95,20 @@ export function Signup({
           className="rounded-t-none"
         />
         <Button type="sumbit" className="self-end mt-3">
-          Signup
+          Login
         </Button>
+        <span className="mt-3"> Not a Member?</span>
+        <Link  className=" hover:border-blue-400 border-2 rounded-md py-3 px-0 text-center text-orange-500 font-bold  mb-2 bg-" to="/signup">Signup</Link>
+        <Link className=" hover:border-blue-400 border-2 rounded-md py-3 px-0 text-center text-orange-500 font-bold  " to="/Forgot">Forgot</Link>
       </form>
     </div>
   );
 }
 
-const FormikSignup = withFormik({
+const FormikLogin = withFormik({
   validationSchema: schema,
   initialValues: initialValues,
   handleSubmit: callLoginApi,
-})(Signup);
+})(Login);
 
-export default withAlert(withUser(FormikSignup));
-
+export default withAlert(withUser(FormikLogin));

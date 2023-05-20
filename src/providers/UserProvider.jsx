@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { UserContext } from "../Contexts";
-import UserLoading from "../UserLoading";
+import UserLoading from "../LoadingComponets/UserLoading";
 
 function UserProvider({ children }) {
   

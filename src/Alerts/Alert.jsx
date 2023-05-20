@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { TiDelete } from "react-icons/ti";
-import { withAlert } from "./withProvider";
-import  Gif from "./Gif"
-import Error from "./Error";
+import { withAlert } from "../withProvider";
+import Gif from "../Gif";
+import Error from "../ErrorComponets/Error";
 
 const thememap = {
   Success: {
-    Svg : Gif,
+    Svg: Gif,
     bg: "bg-green-600",
   },
   Error: {
@@ -16,8 +16,6 @@ const thememap = {
 };
 
 function Alert({ alert, removeAlert }) {
-  
-
   useEffect(
     function () {
       if (alert) {
@@ -30,24 +28,23 @@ function Alert({ alert, removeAlert }) {
     },
     [alert]
   );
-  
-if (!alert) {
+
+  if (!alert) {
     return <></>;
   }
   const { message, type } = alert;
-  const { bg,Svg } = thememap[type];
+  const { bg, Svg } = thememap[type];
 
   return (
-    <div className="flex items-center  justify-center px-2">
+    <div className="flex items-center  justify-center px-2 py-1">
       <div
         role="alert"
         id="alert"
-        className={"px-2   shadow-md rounded-md   items-center  " + bg}
+        className={"px-2 py-1   shadow-md rounded-md items-center  " + bg}
       >
         <div className="flex flex-col items-center md:flex-row">
           <div className="mr-3 p-2  rounded md:rounded-tr-none md:rounded-br-none text-white">
-          
-         <Svg/>
+            <Svg />
           </div>
           <p className="mr-2 text-base font-bold text-white dark:text-gray-100 mt-2 md:my-0">
             {type}

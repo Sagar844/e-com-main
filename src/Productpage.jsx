@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Productlist from "./Productlist";
-import { getProductList } from "./api";
+import { getProductList } from "./api/api";
 
 import NoproductsMacth from "./NoproductsMacth";
 import { range } from "lodash";
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import { withUser } from "./withProvider";
-import UserLoading from "./UserLoading";
+import UserLoading from "./LoadingComponets/UserLoading";
 
 function Productpage({ user }) {
   if (!user) {
@@ -68,8 +68,20 @@ function Productpage({ user }) {
 
   return (
     <div>
-      <div className=" flex justify-end mr-20   ">
-        <select
+      <div className=" flex justify-center items-center mr-auto   ">
+     
+
+        <div className="  sm:flex px-5 ">
+        <input
+          value={query}
+          type="text"
+          onChange={handlechange}
+          className="border text-start  border-blue-500 w-96 rounded-md px-20 py-2 "
+          placeholder="Search for Products ,brands  "
+        />
+      </div>
+
+      <select
           className=" rounded-sm border-2"
           onChange={handlesortchange}
           value={sort}
@@ -79,17 +91,9 @@ function Productpage({ user }) {
           <option value="lowtohigh"> Short by price : low to high</option>
           <option value="hightolow">Short by price : high to low </option>
         </select>
+
       </div>
 
-      <div className=" flex justify-center sm:flex px-5 ">
-        <input
-          value={query}
-          type="text"
-          onChange={handlechange}
-          className="border text-start  border-blue-500 w-96 rounded-md px-20 py-2 "
-          placeholder="Search for Products ,brands  "
-        />
-      </div>
 
       {productdata.data.length > 0 && (
         <Productlist Products={productdata.data} />

@@ -1,10 +1,9 @@
-import React, { useState, useEffect} from "react";
-import { getProductFake } from "./api";
-import Loading from "./Loading";
+import React, { useState, useEffect } from "react";
+import { getProductFake } from "./api/api";
+import Loading from "./LoadingComponets/Loading";
 import Productsfakelist from "./Productsfakelist";
 
 function Fakeproductpage() {
-
   const [productxyz, setProductxyz] = useState([]);
   const [loding, setLoading] = useState(true);
 
@@ -19,18 +18,13 @@ function Fakeproductpage() {
 
   let data = productxyz;
 
-
-
-
   if (loding) {
     return <Loading />;
   }
 
   return (
     <div>
-   
-   
-      <Productsfakelist  Products={data} />
+      <Productsfakelist Products={data} />
     </div>
   );
 }

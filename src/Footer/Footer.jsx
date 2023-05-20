@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="bg-black text-white lg:flex space-x-5 mt-30   ">
+    <div className="bg-black text-white lg:flex space-x-5 mt-30 text-sm   grow-0 min-h-fit   ">
       <div className="space-y-5 mt-16 ml-10">
         <h1>Print</h1>
         <h1 className=" mr-20">
@@ -13,10 +13,9 @@ function Footer() {
 
         <div>
           <Link
-            className=" px-3 py-3 rounded-lg   text-white  hover:bg-indigo-500 "
-            to="Contact" target="_blank"
+            className=" px-3 py-3 rounded-lg   text-white bg-indigo-500 "
+            to="Contact"
           >
-            {" "}
             Contact Us
           </Link>
         </div>
@@ -54,3 +53,6 @@ function Footer() {
 }
 
 export default Footer;
+
+
+

@@ -1,45 +1,37 @@
 import React from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Footer";
 import Productpage from "./Productpage";
 import { Routes, Route } from "react-router-dom";
 import ProductDetails from "./ProductDetails";
-import Contact from "./Contact";
+import Contact from "./Contactpage/Contact";
 import CartPage from "./CartPage";
-import Profile from "./Profile";
+import Profile from "./Profile/Profile";
 import Forgot from "./Forgot";
 import Productsingle from "./Productsingle";
-import Login from "./Login";
+import Login from "./AuthRoute/Login";
 import UserProvider from "./providers/UserProvider";
 import AlertProvider from "./providers/AlertProvider";
 import AuthRoute from "./AuthRoute";
 import CartProvider from "./providers/CartProvider";
-import Signup from "./Signup";
-import Alert from "./Alert";
-
-
-
-
-
+import Signup from "./AuthRoute/Signup";
+import Alert from "./Alerts/Alert";
+import DataNotFound from "./DataNotFound";
 
 function App() {
-
-
-
   return (
-    <div className="bg-gray-200  lg:bg-gray-200 h-screen  flex flex-col space-y-5">
+    <div className="bg-gray-200  lg:bg-gray-200 h-screen container mx-auto  flex flex-col space-y-5">
       <UserProvider>
         <CartProvider>
           <AlertProvider>
             <Navbar />
-            <Alert/>
+            <Alert />
             <Routes>
               <Route index element={<Productpage />} />
               <Route path="/products/:id" element={<ProductDetails />} />
               <Route path="/product/:_id" element={<Productsingle />} />
-             
               <Route
-                path="Login"
+                path="login"
                 element={
                   <AuthRoute>
                     <Login />
@@ -48,10 +40,12 @@ function App() {
               />
               <Route path="/Contact" element={<Contact />} />
               <Route path="/CartPage" element={<CartPage />} />
-              <Route path="/Signup" element={<Signup />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/Forgot" element={<Forgot />}></Route>
               <Route path="/Profile" element={<Profile />} />
-            </Routes> 
+              <Route path="*" element={<DataNotFound />} />
+
+            </Routes>
             <Footer />
           </AlertProvider>
         </CartProvider>

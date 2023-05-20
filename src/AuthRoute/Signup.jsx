@@ -1,64 +1,60 @@
-
 import { withFormik } from "formik";
 import React from "react";
-import Button from "./Button";
+import Button from "../Button/Button";
 import * as Yup from "yup";
-import Input from "./Input";
+import Input from "../InputHoc/Input";
 import axios from "axios";
-import { withUser, withAlert } from "./withProvider";
-
-
+import { withUser, withAlert } from "../withProvider";
 
 function callLoginApi(values,bag) {
   axios
-    .post("https://printapp-e7875-default-rtdb.firebaseio.com/printapp.json", {
-
+    .post("https://myeasykart.codeyogi.io/signup", {
+      fullName : values.fullName,  
       email: values.email,
-      name: values.name,
-      message: values.message,
+      password: values.myPassword,
     })
-
-    .then(() => {
+    
+    .then((response) => {
+      const { user, token } = response.data;
+      localStorage.setItem("token", token);
+      bag.props.setUser(user);
       bag.props.setAlert({
-        type: "Success",
-        message: " Message  Successfully send  ",
-      });
+          type: "Success",
+          message:"Account created. Please login  " + user.email,
+
+      })
+  
     })
     .catch(() => {
       bag.props.setAlert({
         type: "Error",
-        message: " Message  not send  ",
-      });
-      
+        message:"Signup Filed"
+
+    })
+
     });
 }
 
 const schema = Yup.object().shape({
+fullName: Yup.string(),
   email: Yup.string().email().required(),
-  name: Yup.string().required(),
-  message: Yup.string().required(),
+  myPassword: Yup.string().min(6).max(12).required(),
 });
 
 const initialValues = {
+  fullName:"" , 
   email: "",
-  name: "",
-  message :"",
-
+  myPassword: "",
 };
 
-export function Contact({
+export function Signup({
   handleSubmit,
   values,
   errors,
   touched,
   handleChange,
   handleBlur,
-
-}){
-
-
-
-
+}) {
   return (
     <div className="flex items-center justify-center w-full h-screen bg-gray-100">
       <form
@@ -66,8 +62,24 @@ export function Contact({
         className="flex flex-col p-5 bg-white rounded-md shadow-md w-96"
       >
         <h1 className="self-center mb-4 text-orange-500 text-2xl font-bold">
-      Contact Us
+          Signup to Trycasuals
         </h1>
+
+        <Input
+          values={values.fullName}
+          error={errors.fullName}
+          touched={touched.fullName}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          label="fullName"
+          id="fullName"
+          name="fullName"
+          type="text"
+          required
+          autoComplete="on"
+          placeholder=" Username"
+          className="rounded-b-none"
+        />
         <Input
           values={values.email}
           error={errors.email}
@@ -80,54 +92,37 @@ export function Contact({
           type="email"
           required
           autoComplete="email"
-          placeholder="Email"
+          placeholder="Email or Username"
           className="rounded-b-none"
         />
         <Input
-          values={values.name}
-          error={errors.name}
-          touched={touched.name}
+          values={values.myPassword}
+          error={errors.myPassword}
+          touched={touched.myPassword}
           onChange={handleChange}
           onBlur={handleBlur}
-          label="name"
+          label="Password"
           id="xyz"
-          name="name"
-          type="text"
+          name="myPassword"
+          type="password"
           required
-          autoComplete="current-name"
-          placeholder="Name"
-          className="rounded-t-none"
-        />
-            <Input
-          values={values.message}
-          error={errors.message}
-          touched={touched.message}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          label="message"
-          id="vts"
-          name="message"
-          type="text"
-          required
-          autoComplete="current-message"
-          placeholder="Message"
+          autoComplete="current-password"
+          placeholder="Password"
           className="rounded-t-none"
         />
         <Button type="sumbit" className="self-end mt-3">
-       SEND MESSAGE
+          Signup
         </Button>
-       
-      
       </form>
     </div>
   );
 }
 
-const FormikContact = withFormik({
+const FormikSignup = withFormik({
   validationSchema: schema,
   initialValues: initialValues,
   handleSubmit: callLoginApi,
-})(Contact);
+})(Signup);
 
-export default withAlert(withUser(FormikContact));
+export default withAlert(withUser(FormikSignup));
 

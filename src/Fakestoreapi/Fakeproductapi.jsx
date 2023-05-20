@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getProductStoreapi } from "../api";
-import UserLoading from "../UserLoading";
+import { getProductStoreapi } from "../api/api";
+import UserLoading from "../LoadingComponets/UserLoading";
 import FakeList from "./FakeList";
 
 function Fakeproductapi() {

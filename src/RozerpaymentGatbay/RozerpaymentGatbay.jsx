@@ -1,11 +1,10 @@
 import React from "react";
 import { useCallback } from "react";
 import useRazorpay from "react-razorpay";
-import { withUser } from "./withProvider";
+import { withUser } from "../withProvider";
 
-
-const RozerpaymentGatbay = ({ product,user }) => {
-    console.log(product)
+const RozerpaymentGatbay = ({ product, user }) => {
+  console.log(product);
   const total = product.price * 100;
 
   const Razorpay = useRazorpay();
@@ -22,7 +21,7 @@ const RozerpaymentGatbay = ({ product,user }) => {
       image: product.thumbnail,
       // order_id: order,
       handler: (res) => {
-        console.log(res);
+        console.log("payemet" , res);
       },
       prefill: {
         name: user.fullName,
@@ -33,7 +32,7 @@ const RozerpaymentGatbay = ({ product,user }) => {
         address: "Razorpay Corporate Office",
       },
       theme: {
-        color: "#38bdf8",
+        color: "#f97316",
       },
     };
 
@@ -43,8 +42,11 @@ const RozerpaymentGatbay = ({ product,user }) => {
 
   return (
     <div>
-      <button onClick={handlePayment} className="bg-orange-500 rounded-md px-4 py-1 mt-2 focus:ring-2 ">
-        BUY now
+      <button
+        onClick={handlePayment}
+        className="bg-orange-500 rounded-md px-4 py-1 mt-2  text-white text-sm focus:ring-2 "
+      >
+        BUY NOW
       </button>
     </div>
   );

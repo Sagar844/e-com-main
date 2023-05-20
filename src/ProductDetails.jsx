@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { getProductData } from "./api";
+import { getProductData } from "./api/api";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import UserLoading from "./UserLoading";
+import UserLoading from "./LoadingComponets/UserLoading";
 import DataNotFound from "./DataNotFound";
-import Fakeproductpage from "./Fakeproductpage";
+
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { withAlert, withCart } from "./withProvider";
 
-import RozerpaymentGatbay from "./RozerpaymentGatbay";
+import RozerpaymentGatbay from "./RozerpaymentGatbay/RozerpaymentGatbay";
+import Fakeproductapi from "./Fakestoreapi/Fakeproductapi";
 
 function ProductDetails({ addToCart, setAlert }) {
   const { id } = useParams();
@@ -54,7 +55,7 @@ function ProductDetails({ addToCart, setAlert }) {
           <TransformWrapper>
             <TransformComponent>
               <img
-                className="rounded-md w-full h-full max-w-md object-cover border-2 border-gray-400 "
+                className="rounded-md  max-w-sm object-cover border-2 border-gray-400 "
                 src={product.thumbnail}
               />
             </TransformComponent>
@@ -65,13 +66,11 @@ function ProductDetails({ addToCart, setAlert }) {
             </div>
             <div className="text-xl font-bold">{product.category} </div>
             <div className="text-2xl font-bold text-orange-600">
-              {" "}
-              Rs.{product.price}{" "}
+              Rs.{product.price}
             </div>
             <div className="text-2xl font-bold text-orange-600">
-              {" "}
               <span className="text-black">Brand:</span>
-              {product.brand}{" "}
+              {product.brand}
             </div>
 
             <div className=" space-y-2 ">
@@ -92,7 +91,7 @@ function ProductDetails({ addToCart, setAlert }) {
               >
                 Add to Cart
               </button>
-  <RozerpaymentGatbay product={product}/>
+              <RozerpaymentGatbay product={product} />
             </div>
           </div>
           <div className="mr-20">
@@ -106,9 +105,7 @@ function ProductDetails({ addToCart, setAlert }) {
       <div className="text-3xl font-bold ml-10 ">
         You might be interested in
       </div>
-      <div className="mt-5">
-        {/* <Fakeproductpage /> */}
-      </div>
+      <div className="mt-5">  <Fakeproductapi /></div>
     </>
   );
 }

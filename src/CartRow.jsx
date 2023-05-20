@@ -2,7 +2,7 @@ import React from "react";
 import { TiDeleteOutline} from "react-icons/ti";
 import  {Link} from "react-router-dom";
 import {withAlert} from "./withProvider";
-import RozerpaymentGatbay from "./RozerpaymentGatbay";
+import RozerpaymentGatbay from "./RozerpaymentGatbay/RozerpaymentGatbay";
 
 function CartRow({ product, quantity, onQuantityChange, onRemove,setAlert }) {
 
